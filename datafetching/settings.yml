@@ -1,0 +1,16 @@
+databases:
+      databaseone:
+            host: #host
+            username: #dbUsername
+            password: #Pwd
+            dbname: #dbName
+            charset: #utf8mb4
+            use_unicode: True
+      databasetwo:
+            host: #host
+            username: #dbUsername
+            password: #Pwd
+            dbname: #dbName
+            charset: #utf8mb4
+            use_unicode: True
+      
