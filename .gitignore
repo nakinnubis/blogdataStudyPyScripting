@@ -112,3 +112,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+settings_local.yml
+average_data_26.json
+average_data_one.json

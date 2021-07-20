@@ -26,7 +26,7 @@ class SqlDataCompare():
              # Getting urls from user_blog
              for data in resultFromTableToCompare:
                 permalink = data['permalink']
-                query = f"""SELECT domain,url,author,title,title_sentiment,title_toxicity,published_date,content,content_sentiment,content_toxicity,content_html,language,links,tags FROM blogs.posts where url = '{permalink}';"""
+                query = f"""SELECT domain,url,author,title,title_sentiment,AVG(title_toxicity) as title_toxicity_avg,published_date,content,AVG(content_sentiment) as content_sentiment_avg,AVG(content_toxicity) as content_toxicity_avg,content_html,language,links,tags FROM blogs.posts where url = '{permalink}' AND published_date >='2014-01-01' AND published_date <= '2020-12-31' GROUP BY published_date ORDER BY published_date DESC;"""
                 cursor.execute(query)
                 record =  cursor.fetchone()
                 # v_dict = version.dict()
@@ -52,11 +52,11 @@ class SqlDataCompare():
         databasetwo = config["databases"]["databasetwo"]
         connectionOne = self.get_connection(databaseone["host"],databaseone["username"],databaseone["password"],databaseone["dbname"], databaseone['charset'],databaseone["use_unicode"]) 
         connectionTwo = self.get_connection(databasetwo["host"],databasetwo["username"],databasetwo["password"],databasetwo["dbname"], databasetwo['charset'],databasetwo["use_unicode"]) 
-        queryDataSourceOne = Path('./datafetching/sqlquery.txt').read_text()
+        queryDataSourceOne = Path('./datafetching/avarage_sentiment_sql_query_topic26.sql').read_text()
         s = queryDataSourceOne
         blogtrackerData = self.getDataFromTable(s,connectionOne)
         result = self.compareDataFromTables(blogtrackerData,connectionTwo)
-        with open('data.json', 'w') as outfile:
+        with open('average_data_26.json', 'w') as outfile:
             enco = lambda obj: (
                     obj.isoformat()
                     if isinstance(obj, datetime.datetime)
